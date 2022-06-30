@@ -60,12 +60,25 @@ function App() {
             </>
           }
         />
-        <Route path="/detail" element={<Detail />} />
+        <Route path="/detail/:id" element={<Detail shoeData={shoeData} />} />
+
         <Route path="/about" element={<About />}>
           <Route path="location" element={<div>멤버임</div>} />
-          <Route path="member" element={<About />} />
+          <Route path="member" element={<div>회사위치</div>} />
+        </Route>
+        <Route path="/event" element={<Event />}>
+          <Route path="one" element={<p>첫 주문시 양배추즙 서비스</p>} />
+          <Route path="two" element={<p>첫 주문시 양배추즙 서비스</p>} />
         </Route>
       </Routes>
+    </div>
+  );
+}
+function Event() {
+  return (
+    <div>
+      <h4>오늘의 이벤트</h4>
+      <Outlet></Outlet>
     </div>
   );
 }
@@ -73,8 +86,8 @@ function App() {
 function About() {
   return (
     <div>
-      <h4>회사정보임</h4>
       <Outlet></Outlet>
+      <h4>회사정보임</h4>
     </div>
   );
 }
