@@ -15,8 +15,11 @@ import data from "./data";
 // detail 컴포넌트
 import Detail from "./routes/Detail.js";
 
+import axios from "axios";
+
 function App() {
-  let [shoeData] = useState(data);
+  let [shoesData, setShoesData] = useState(data);
+  let [count, setCount] = useState(2);
   // 페이지 이동 도와주는 함수
   let navigate = useNavigate();
 
@@ -52,15 +55,38 @@ function App() {
               <div className="main-bg"></div>
               <Container>
                 <Row>
-                  {shoeData.map((a, i) => {
-                    return <Shoes shoeData={shoeData[i]} i={i} key={i} />;
+                  {shoesData.map((a, i) => {
+                    return <Shoes shoesData={shoesData[i]} i={i} key={i} />;
                   })}
                 </Row>
               </Container>
+              <button
+                onClick={() => {
+                  // 로딩 중 UI 띄우기
+                  axios
+                    .get(
+                      `https://codingapple1.github.io/shop/data${count}.json`
+                    )
+                    .then((결과) => {
+                      setShoesData([...shoesData, ...결과.data]);
+                      // 로딩 중 UI 지우기
+                    })
+                    .catch(() => {
+                      // 로딩 중 UI 지우기
+                    });
+
+                  setCount(count + 1);
+                  if (count > 4) {
+                    alert("상품이 더 이상 존재하지 않습니다.");
+                  }
+                }}
+              >
+                버튼
+              </button>
             </>
           }
         />
-        <Route path="/detail/:id" element={<Detail shoeData={shoeData} />} />
+        <Route path="/detail/:id" element={<Detail shoesData={shoesData} />} />
 
         <Route path="/about" element={<About />}>
           <Route path="location" element={<div>멤버임</div>} />
@@ -102,8 +128,8 @@ function Shoes(props) {
         width="80%"
         alt={"shoes" + (props.i + 1)}
       />
-      <h4>{props.shoeData.title}</h4>
-      <p>{props.shoeData.price}</p>
+      <h4>{props.shoesData.title}</h4>
+      <p>{props.shoesData.price}</p>
     </Col>
   );
 }
