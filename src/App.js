@@ -16,6 +16,7 @@ import data from "./data";
 import Detail from "./routes/Detail.js";
 
 import axios from "axios";
+import Cart from "./routes/Cart";
 
 function App() {
   let [shoesData, setShoesData] = useState(data);
@@ -87,15 +88,7 @@ function App() {
           }
         />
         <Route path="/detail/:id" element={<Detail shoesData={shoesData} />} />
-
-        <Route path="/about" element={<About />}>
-          <Route path="location" element={<div>멤버임</div>} />
-          <Route path="member" element={<div>회사위치</div>} />
-        </Route>
-        <Route path="/event" element={<Event />}>
-          <Route path="one" element={<p>첫 주문시 양배추즙 서비스</p>} />
-          <Route path="two" element={<p>첫 주문시 양배추즙 서비스</p>} />
-        </Route>
+        <Route path="/cart" element={<Cart />} />
       </Routes>
     </div>
   );
